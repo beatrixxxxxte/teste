@@ -1,7 +1,6 @@
 FROM ubuntu:latest AS build
 
-RUN apt-get update
-RUN apt-get install -y openjdk-21-jdk maven
+RUN apt-get update && apt-get install -y openjdk-21-jdk maven
 
 # Defina o diretório de trabalho no contêiner
 WORKDIR /app
@@ -25,4 +24,4 @@ EXPOSE 8080
 # Copie o JAR do build anterior
 COPY --from=build /app/target/roteiro01-0.0.1-SNAPSHOT.jar /app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
