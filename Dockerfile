@@ -1,12 +1,18 @@
-FROM maven:3.8.6-openjdk-11-slim AS build
+FROM ubuntu:latest AS build
 
-COPY . /app
-WORKDIR /app
+RUN apt-get update 
+RUN apt-get install openjdk-21-jdk -y
+COPY . .
 
-RUN mvn clean install
+RUN apt-get install maven -y
+RUN mvn clean 
+RUN mvn install
 
-FROM openjdk:11-jre-slim
+FROM openjdk:21-jdk-slim
 
-COPY --from=build /app/target/*.jar /app/app.jar
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+COPY --from=build target/roteiro01-0.0.1-SNAPSHOT.jar app.jar
+
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
