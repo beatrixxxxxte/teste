@@ -5,13 +5,13 @@ FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
 
 # Copie o arquivo pom.xml e as dependências primeiro para o cache
-COPY teste/codigo/roteiro01/roteiro01/pom.xml /app/
+COPY codigo/roteiro01/roteiro01/pom.xml /app/
 
 # Baixe as dependências do Maven
 RUN mvn dependency:go-offline
 
 # Copie todo o código fonte para o diretório de trabalho
-COPY teste/codigo/roteiro01/roteiro01 /app
+COPY codigo/roteiro01/roteiro01 /app
 
 # Execute o comando de build do Maven
 RUN mvn clean install -DskipTests
